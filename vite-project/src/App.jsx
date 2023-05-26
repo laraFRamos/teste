@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import GlobalStyles from "./globalStyles";
+import { Calculator } from "./calculadora";
 
-function Calculator() {
+function App() {
   const [n1, setN1] = useState("");
   const [n2, setN2] = useState("");
   const [operator, setOperator] = useState("");
@@ -12,11 +14,11 @@ function Calculator() {
     }
 
     if (operator === "") {
-      setN1((prevN1) => prevN1 + number);
+      setN1(n1 + number);
     } else if (operator !== "" && n2 === "") {
       setN2(number);
     } else {
-      setN2((prevN2) => prevN2 + number);
+      setN2(n2 + number);
     }
   }
 
@@ -63,45 +65,88 @@ function Calculator() {
           break;
       }
 
-      setRes(result.toFixed(2));
+      setRes(result);
       setN1("" + result);
       setN2("");
       setOperator("");
     }
   }
 
+  useEffect(() => {
+    if (res !== "") {
+      document.getElementById("display").innerHTML = "" + res.toFixed(1);
+    }
+  }, [res]);
+
   return (
-    <div>
-      <h2>Calculator</h2>
-      <form onSubmit={calculate}>
-        <input type="text" id="display" value={res} disabled />
-        <br />
-        <button onClick={() => addNumber("1")}>1</button>
-        <button onClick={() => addNumber("2")}>2</button>
-        <button onClick={() => addNumber("3")}>3</button>
-        <br />
-        <button onClick={() => addNumber("4")}>4</button>
-        <button onClick={() => addNumber("5")}>5</button>
-        <button onClick={() => addNumber("6")}>6</button>
-        <br />
-        <button onClick={() => addNumber("7")}>7</button>
-        <button onClick={() => addNumber("8")}>8</button>
-        <button onClick={() => addNumber("9")}>9</button>
-        <br />
-        <button onClick={() => addNumber("0")}>0</button>
-        <br />
-        <button onClick={() => addOperator("+")}>+</button>
-        <button onClick={() => addOperator("-")}>-</button>
-        <button onClick={() => addOperator("*")}>*</button>
-        <br />
-        <button onClick={() => addOperator("/")}>/</button>
-        <button onClick={() => addOperator("^")}>^</button>
-        <br />
-        <button type="submit">Calculate</button>
-        <button type="button" onClick={erase}>Clear</button>
+    <Calculator>
+      <GlobalStyles />
+      <form action="" onSubmit={calculate}>
+        <span id="display"></span>
+        <section id="buttonsGrid">
+          <article id="numbersGrid">
+            <button type="button" className="operatorButton" onClick={() => erase()}>
+              C
+            </button>
+            <button type="button" className="operatorButtonOff"></button>
+            <button type="button" className="operatorButtonOff"></button>
+
+            <button type="button" className="numbersButton" onClick={() => addNumber("7")}>
+              7
+            </button>
+            <button type="button" className="numbersButton" onClick={() => addNumber("8")}>
+              8
+            </button>
+            <button type="button" className="numbersButton" onClick={() => addNumber("9")}>
+              9
+            </button>
+            <button type="button" className="numbersButton" onClick={() => addNumber("4")}>
+              4
+            </button>
+            <button type="button" className="numbersButton" onClick={() => addNumber("5")}>
+              5
+            </button>
+            <button type="button" className="numbersButton" onClick={() => addNumber("6")}>
+              6
+            </button>
+            <button type="button" className="numbersButton" onClick={() => addNumber("1")}>
+              1
+            </button>
+            <button type="button" className="numbersButton" onClick={() => addNumber("2")}>
+              2
+            </button>
+            <button type="button" className="numbersButton" onClick={() => addNumber("3")}>
+              3
+            </button>
+            <button type="button" className="numbersButtonOff"></button>
+            <button type="button" className="numbersButton" onClick={() => addNumber("0")}>
+              0
+            </button>
+            <button type="button" className="numbersButtonOff"></button>
+          </article>
+
+          <article id="operatorsGrid">
+            <button type="button" className="operatorButton" onClick={() => addOperator("/")}>
+              ÷
+            </button>
+            <button type="button" className="operatorButton" onClick={() => addOperator("*")}>
+              x
+            </button>
+            <button type="button" className="operatorButton" onClick={() => addOperator("-")}>
+              -
+            </button>
+            <button type="button" className="operatorButton" onClick={() => addOperator("+")}>
+              +
+            </button>
+            <button type="button" className="operatorButton" onClick={() => addOperator("^")}>
+              ^
+            </button>
+            <button type="submit" className="submitButton">=</button>
+          </article>
+        </section>
       </form>
-    </div>
+    </Calculator>
   );
 }
 
-export default Calculator;
+export default App;
