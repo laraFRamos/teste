@@ -80,9 +80,9 @@ function App() {
 
   return (
     <Calculator>
-      <GlobalStyles />
-      <form action="" onSubmit={calculate}>
-        <span id="display"></span>
+    <GlobalStyles />
+    <form action="" onSubmit={calculate}>
+        <span id="display">{res}</span>
         <section id="buttonsGrid">
           <article id="numbersGrid">
             <button type="button" className="operatorButton" onClick={() => erase()}>
